@@ -1,0 +1,951 @@
+/* ==========================================================================
+   DESIGN TOKENS - ONLINE QUIZ MAKER
+   ========================================================================== */
+:root {
+    --color-bg: #090812;
+    --color-bg-alt: #100f24;
+    --color-card: rgba(22, 21, 46, 0.65);
+    --color-card-border: rgba(139, 92, 246, 0.15);
+    
+    --color-primary: #8b5cf6; /* Violet */
+    --color-primary-hover: #7c3aed;
+    --color-secondary: #06b6d4; /* Cyan */
+    --color-success: #10b981; /* Green */
+    --color-danger: #ef4444; /* Red */
+    
+    --gradient-primary: linear-gradient(135deg, #8b5cf6, #6366f1);
+    --gradient-secondary: linear-gradient(135deg, #06b6d4, #3b82f6);
+    --gradient-glow: 0 0 20px rgba(139, 92, 246, 0.25);
+
+    --color-text: #f3f4f6;
+    --color-text-muted: #9ca3af;
+    --color-text-dark: #6b7280;
+    
+    --glass-blur: blur(12px);
+    --max-width: 1200px;
+    --header-height: 70px;
+    
+    --font-heading: 'Outfit', sans-serif;
+    --font-sans: 'Inter', sans-serif;
+    
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   RESET & SETUP
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    background-color: var(--color-bg);
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: 1.5;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding-top: calc(var(--header-height) + 2.5rem);
+    padding-bottom: 4rem;
+}
+
+.font-outfit {
+    font-family: var(--font-heading);
+}
+
+/* ==========================================================================
+   HEADER NAVIGATION
+   ========================================================================== */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: rgba(9, 8, 18, 0.7);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 500;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+.logo-accent {
+    color: var(--color-primary);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+.nav-link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 0.2rem 0;
+}
+.nav-link:hover, .nav-link.active {
+    color: #fff;
+}
+
+.user-widget {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.user-profile-widget {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.user-avatar-text {
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #fff;
+}
+.user-name-widget {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.logout-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: var(--transition);
+}
+.logout-btn:hover {
+    color: var(--color-danger);
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.toggle-bar {
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-text);
+    transition: var(--transition);
+}
+
+/* ==========================================================================
+   BUTTONS SYSTEM
+   ========================================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: #fff;
+    border: none;
+}
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--gradient-glow);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.btn-secondary:hover {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: var(--color-primary);
+}
+
+.btn-small {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+}
+
+.btn-danger-small {
+    background: rgba(239, 68, 68, 0.08);
+    color: var(--color-danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.btn-danger-small:hover {
+    background: var(--color-danger);
+    color: #fff;
+    border-color: var(--color-danger);
+}
+
+.btn-icon-svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 0.4rem;
+}
+
+/* ==========================================================================
+   SPA ROUTER VIEWS TOGGLES
+   ========================================================================== */
+.view-panel {
+    display: none;
+    animation: slide-up-fade 0.4s ease-out;
+}
+.view-panel.active {
+    display: block;
+}
+
+@keyframes slide-up-fade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   1. VIEW - HOME HERO
+   ========================================================================== */
+.view-panel#view-home {
+    padding: 2rem 0;
+}
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: center;
+}
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+}
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+}
+.gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hero-desc {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+.hero-actions {
+    display: flex;
+    gap: 1.2rem;
+}
+
+/* Home Sidebar Promo Card */
+.promo-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    padding: 3rem 2.5rem;
+    border-radius: 20px;
+    backdrop-filter: var(--glass-blur);
+    text-align: center;
+}
+.promo-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-primary);
+}
+.promo-icon svg {
+    width: 32px;
+    height: 32px;
+}
+.promo-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+}
+.promo-card p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   2. VIEW - AUTH CARD (SIGN IN / UP)
+   ========================================================================== */
+.auth-card {
+    max-width: 420px;
+    margin: 3rem auto;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: var(--glass-blur);
+}
+.auth-header {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.auth-tab-btn {
+    flex: 1;
+    padding: 1rem 0;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.auth-tab-btn.active {
+    color: #fff;
+    border-bottom: 2px solid var(--color-primary);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.auth-form {
+    padding: 2.5rem;
+    display: none;
+}
+.auth-form.active {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    animation: fade-in 0.3s ease-out;
+}
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.auth-title {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: #fff;
+}
+.auth-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    width: 100%;
+}
+.form-row-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+.form-input, .form-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition);
+}
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--color-primary);
+    background: rgba(139, 92, 246, 0.05);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+}
+.form-textarea {
+    resize: none;
+}
+
+/* ==========================================================================
+   3. VIEW - QUIZ LISTING
+   ========================================================================== */
+.section-title-wrap {
+    margin-bottom: 3rem;
+}
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    margin-bottom: 0.4rem;
+}
+.section-desc {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+}
+
+.quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.quiz-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+    transition: var(--transition);
+}
+.quiz-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(139, 92, 246, 0.4);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+.card-category {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-secondary);
+}
+.card-q-count {
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem 0.7rem;
+    border-radius: 5px;
+    color: var(--color-text-muted);
+}
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #fff;
+}
+.card-desc {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 1.8rem;
+    flex-grow: 1;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+.card-creator {
+    font-size: 0.8rem;
+    color: var(--color-text-dark);
+}
+
+/* ==========================================================================
+   4. VIEW - QUIZ CREATION (BUILDER)
+   ========================================================================== */
+.creator-wrapper {
+    max-width: 850px;
+    margin: 0 auto;
+}
+.quiz-creator-form {
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    backdrop-filter: var(--glass-blur);
+    padding: 3rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 1rem 0;
+}
+
+/* Dynamic Question Card Builder */
+.questions-builder-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+.question-item-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 2rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    position: relative;
+    animation: fade-in-scale 0.3s ease-out;
+}
+@keyframes fade-in-scale {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.question-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.question-index-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Option inputs layout */
+.options-builder-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+.option-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+}
+.option-input-wrap:focus-within {
+    border-color: rgba(139, 92, 246, 0.5);
+}
+.option-radio {
+    accent-color: var(--color-success);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+.option-inner-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.add-question-card-btn {
+    width: 100%;
+    justify-content: center;
+    border-style: dashed;
+    border-color: rgba(139, 92, 246, 0.3);
+    margin-bottom: 2rem;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+.form-footer .btn {
+    padding: 0.9rem 2.5rem;
+}
+
+/* ==========================================================================
+   5. VIEW - QUIZ PLAY (TAKING)
+   ========================================================================== */
+.quiz-play-card {
+    max-width: 650px;
+    margin: 2rem auto;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: var(--glass-blur);
+}
+.quiz-play-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8rem 2rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+.play-quiz-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+}
+.play-question-num {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.play-progress-track {
+    height: 4px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+}
+.play-progress-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    transition: width 0.4s ease-out;
+}
+
+.quiz-play-body {
+    padding: 2.5rem 2rem;
+}
+.play-question-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+    color: #fff;
+}
+.play-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.play-option-btn {
+    width: 100%;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.play-option-btn:hover {
+    background: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.3);
+    transform: translateX(3px);
+}
+.play-option-btn.selected {
+    background: var(--gradient-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+}
+
+.quiz-play-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.01);
+}
+
+/* ==========================================================================
+   6. VIEW - QUIZ RESULTS
+   ========================================================================== */
+.results-card {
+    max-width: 650px;
+    margin: 2rem auto;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 20px;
+    padding: 4rem 3rem;
+    text-align: center;
+    backdrop-filter: var(--glass-blur);
+}
+.results-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 1.5rem;
+    background: rgba(6, 182, 212, 0.08);
+    border: 1.5px solid rgba(6, 182, 212, 0.3);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-secondary);
+}
+.results-icon svg {
+    width: 36px;
+    height: 36px;
+}
+.results-headline {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.score-display-box {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 2rem;
+    border-radius: 12px;
+    display: inline-block;
+    min-width: 200px;
+    margin-bottom: 1.5rem;
+}
+.score-num {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.score-fraction {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+}
+.results-feedback {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    margin-bottom: 3rem;
+}
+
+/* Detailed Corrections */
+.results-reviews-section {
+    text-align: left;
+    margin-bottom: 3.5rem;
+}
+.review-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+.results-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.correction-item {
+    background: rgba(0,0,0,0.15);
+    border-left: 3px solid var(--color-text-dark);
+    padding: 1.2rem;
+    border-radius: 0 8px 8px 0;
+}
+.correction-item.correct {
+    border-left-color: var(--color-success);
+}
+.correction-item.incorrect {
+    border-left-color: var(--color-danger);
+}
+.correction-q {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+    color: #fff;
+}
+.correction-ans {
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+}
+.correction-ans.user-val.correct-val {
+    color: var(--color-success);
+}
+.correction-ans.user-val.incorrect-val {
+    color: var(--color-danger);
+}
+.correction-ans.real-val {
+    color: var(--color-success);
+    font-weight: 500;
+}
+
+.results-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer {
+    background-color: #05040a;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--color-text-dark);
+}
+.footer-content a {
+    color: var(--color-text-dark);
+    text-decoration: none;
+    transition: var(--transition);
+}
+.footer-content a:hover {
+    color: var(--color-primary);
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .quiz-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+    
+    .nav-toggle {
+        display: flex;
+    }
+    .nav-menu {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background: #090812;
+        padding: 3rem;
+        transform: translateX(-100%);
+        transition: var(--transition);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .nav-menu.active {
+        transform: translateX(0);
+    }
+    .nav-list {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+    }
+    .hero-actions {
+        justify-content: center;
+    }
+    
+    .quiz-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .quiz-creator-form {
+        padding: 2rem 1.5rem;
+    }
+    .form-row-main {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+    .options-builder-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-card {
+        padding: 2.5rem 1.5rem;
+    }
+    .results-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizSync | Make and Take Quizzes Online</title>
+    <meta name="description" content="Online Quiz Maker. Create custom quizzes with multiple-choice questions, browse active lists, and receive instant score results.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="#/home" class="logo">
+                <span class="logo-accent">Quiz</span>Sync
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-list">
+                    <li><a href="#/home" class="nav-link active">Home</a></li>
+                    <li><a href="#/listing" class="nav-link">Browse Quizzes</a></li>
+                    <li><a href="#/create" class="nav-link" id="navCreateLink">Create Quiz</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-widget" id="userWidget">
+                <!-- Dynamically swapped by app.js: e.g. Login button or Profile details -->
+                <a href="#/auth" class="btn btn-primary btn-small" id="headerAuthBtn">Login / Register</a>
+            </div>
+            
+            <!-- Mobile nav toggle -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle Menu">
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Screens Container -->
+    <main class="container main-content">
+        
+        <!-- ==========================================
+             1. HOME SCREEN
+             ========================================== -->
+        <section id="view-home" class="view-panel active">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <span class="badge">No-Code Quiz Studio</span>
+                    <h1 class="hero-title">Create, Share, and Take <span class="gradient-text">Quizzes</span> Instantly.</h1>
+                    <p class="hero-desc">
+                        A minimal web platform designed to test your knowledge or build custom multiple-choice questionnaires. Create private or public quizzes, share links, and get immediate score details.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#/listing" class="btn btn-primary">Browse Quizzes</a>
+                        <a href="#/create" class="btn btn-secondary">Create a Quiz</a>
+                    </div>
+                </div>
+                <div class="hero-card-promo">
+                    <div class="promo-card">
+                        <div class="promo-icon text-indigo">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <h3>General Quiz Studio</h3>
+                        <p>Create quizzes containing structured options, verify correct indices, and view scored results in real-time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             2. MOCK USER AUTHENTICATION (Login / Registration)
+             ========================================== -->
+        <section id="view-auth" class="view-panel">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <button class="auth-tab-btn active" id="tabLoginBtn">Sign In</button>
+                    <button class="auth-tab-btn" id="tabRegisterBtn">Sign Up</button>
+                </div>
+                
+                <!-- Sign In Form -->
+                <form id="loginForm" class="auth-form active">
+                    <h2 class="auth-title">Welcome Back</h2>
+                    <p class="auth-subtitle">Sign in to start creating your own customized quizzes.</p>
+                    <div class="form-group">
+                        <label for="loginUser" class="form-label">Username</label>
+                        <input type="text" id="loginUser" required placeholder="Enter username..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPass" class="form-label">Password</label>
+                        <input type="password" id="loginPass" required placeholder="Enter password..." class="form-input">
+                    </div>
+                    <button type="submit" class="btn btn-primary auth-submit-btn">Login</button>
+                </form>
+
+                <!-- Sign Up Form -->
+                <form id="registerForm" class="auth-form">
+                    <h2 class="auth-title">Create Account</h2>
+                    <p class="auth-subtitle">Register to unlock the Quiz Creator tools.</p>
+                    <div class="form-group">
+                        <label for="registerUser" class="form-label">Username</label>
+                        <input type="text" id="registerUser" required placeholder="Choose username..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPass" class="form-label">Password</label>
+                        <input type="password" id="registerPass" required placeholder="Choose password..." class="form-input">
+                    </div>
+                    <button type="submit" class="btn btn-primary auth-submit-btn">Register</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             3. QUIZ LISTING SCREEN
+             ========================================== -->
+        <section id="view-listing" class="view-panel">
+            <div class="section-title-wrap">
+                <h2 class="section-title">Available Quizzes</h2>
+                <p class="section-desc">Browse through active quizzes built by our developer community or start your own.</p>
+            </div>
+            
+            <!-- Quizzes Grid Container -->
+            <div class="quiz-grid" id="quizzesGrid">
+                <!-- Rendered dynamically by app.js -->
+            </div>
+        </section>
+
+        <!-- ==========================================
+             4. QUIZ CREATION SCREEN (Requires Login)
+             ========================================== -->
+        <section id="view-create" class="view-panel">
+            <div class="creator-wrapper">
+                <div class="section-title-wrap">
+                    <h2 class="section-title">Create a New Quiz</h2>
+                    <p class="section-desc">Add a title, description, and list multiple-choice questions.</p>
+                </div>
+                
+                <form id="quizCreatorForm" class="quiz-creator-form">
+                    <div class="form-row-main">
+                        <div class="form-group">
+                            <label for="quizTitle" class="form-label">Quiz Title</label>
+                            <input type="text" id="quizTitle" required placeholder="e.g. JavaScript Operations" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="quizCategory" class="form-label">Category</label>
+                            <select id="quizCategory" class="form-input">
+                                <option value="Web Development">Web Development</option>
+                                <option value="Science / Technology">Science / Technology</option>
+                                <option value="General Knowledge">General Knowledge</option>
+                                <option value="Gaming / Entertainment">Gaming / Entertainment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="quizDesc" class="form-label">Short Description</label>
+                        <textarea id="quizDesc" required rows="2" placeholder="Describe the topics covered in this quiz..." class="form-textarea"></textarea>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Questions List Container -->
+                    <div class="questions-list-section">
+                        <h3 class="subsection-title">Quiz Questions</h3>
+                        <div id="questionsBuilderContainer" class="questions-builder-container">
+                            <!-- Question cards will be appended here -->
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-small add-question-card-btn" id="addQuestionBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon-svg"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Add Slide Question
+                        </button>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary" id="saveQuizSubmitBtn">Save and Publish Quiz</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             5. QUIZ PLAY WINDOW (Taking flow)
+             ========================================== -->
+        <section id="view-take" class="view-panel">
+            <div class="quiz-play-card">
+                <div class="quiz-play-header">
+                    <span id="playQuizName" class="play-quiz-title font-outfit">Quiz Name</span>
+                    <span id="playQuestionCounter" class="play-question-num">Question 1 of 5</span>
+                </div>
+                
+                <!-- Progress Line -->
+                <div class="play-progress-track">
+                    <div id="playProgressBar" class="play-progress-fill" style="width: 0%;"></div>
+                </div>
+
+                <!-- Current Question Card -->
+                <div class="quiz-play-body" id="playBodyContainer">
+                    <h3 id="playQuestionText" class="play-question-text font-outfit">Loading question...</h3>
+                    <div id="playOptionsContainer" class="play-options-list">
+                        <!-- Dynamic Options buttons loaded here -->
+                    </div>
+                </div>
+
+                <div class="quiz-play-footer">
+                    <button id="playPrevBtn" class="btn btn-secondary btn-small" disabled>Previous</button>
+                    <button id="playNextBtn" class="btn btn-primary btn-small">Next Question</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             6. QUIZ RESULTS SCREEN
+             ========================================== -->
+        <section id="view-results" class="view-panel">
+            <div class="results-card">
+                <div class="results-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <h2 class="results-headline font-outfit">Quiz Completed!</h2>
+                
+                <div class="score-display-box">
+                    <div class="score-num" id="resultsPercentage">0%</div>
+                    <div class="score-fraction" id="resultsFraction">Score: 0 / 0</div>
+                </div>
+
+                <p class="results-feedback" id="resultsFeedbackText">Good effort! Review the detailed correction sheet below.</p>
+
+                <!-- Detailed Reviews -->
+                <div class="results-reviews-section">
+                    <h3 class="review-title">Detailed Correction Sheet</h3>
+                    <div class="results-reviews-list" id="resultsCorrectionList">
+                        <!-- Dynamic list of questions, answers, and correct answers -->
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <a href="#/listing" class="btn btn-primary">Browse Other Quizzes</a>
+                    <a href="#/home" class="btn btn-secondary">Go to Home</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>&copy; 2026 QuizSync. Built cleanly using vanilla HTML & CSS.</p>
+            <a href="#/listing">Manage Quizzes</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript Bundle Router -->
+    <script src="app.js"></script>
+</body>
+</html>
