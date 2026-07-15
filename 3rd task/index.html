@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoardSync | Modern Project Management & Kanban Board</title>
+    <meta name="description" content="Manage projects, assign tasks, set deadlines, and track visual progress using drag-and-drop Kanban columns.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Style Sheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Main Dashboard Wrap -->
+    <div class="dashboard-wrapper">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-accent">Board</span>Sync
+                </div>
+            </div>
+            
+            <div class="projects-list-wrap">
+                <div class="section-badge-header">
+                    <span>Active Projects</span>
+                    <button class="add-proj-icon-btn" id="openAddProjectModalBtn" title="Create New Project">+</button>
+                </div>
+                <div class="projects-list" id="projectsListContainer">
+                    <!-- Rendered dynamically by app.js -->
+                </div>
+            </div>
+
+            <!-- Global Workspace Stats -->
+            <div class="sidebar-stats">
+                <h4 class="sidebar-stats-title font-outfit">Workspace Load</h4>
+                <div class="stat-progress-bar">
+                    <div class="stat-progress-fill" id="globalStatsBar" style="width: 0%;"></div>
+                </div>
+                <span class="stat-progress-label" id="globalStatsLabel">0 Tasks Completed</span>
+            </div>
+        </aside>
+
+        <!-- Main Panel Body -->
+        <main class="main-panel">
+            <!-- Main Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="active-project-title font-outfit" id="activeProjectTitle">Project Board</h1>
+                    <p class="active-project-desc" id="activeProjectDesc">Select or create a project to review timelines and tasks.</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" id="openAddTaskModalBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon-svg"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Add New Task
+                    </button>
+                    <!-- Mobile sidebar drawer toggle -->
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Board Stats Bar -->
+            <div class="board-metrics">
+                <div class="metric-card">
+                    <span class="metric-num text-cyan" id="metricTotalCount">0</span>
+                    <span class="metric-label">Total Tasks</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-num text-green" id="metricSuccessCount">0</span>
+                    <span class="metric-label">Completed</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-num text-orange" id="metricProgressPercent">0%</span>
+                    <span class="metric-label">Project Progress</span>
+                </div>
+            </div>
+
+            <!-- Drag-and-Drop Columns Grid -->
+            <div class="board-grid">
+                
+                <!-- Column 1: To Do -->
+                <div class="kanban-column" data-status="todo">
+                    <div class="column-header">
+                        <div class="column-header-title">
+                            <span class="column-dot dot-todo"></span>
+                            <h3>To Do</h3>
+                        </div>
+                        <span class="column-count-badge" id="count-todo">0</span>
+                    </div>
+                    <div class="column-card-list" id="list-todo">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Column 2: In Progress -->
+                <div class="kanban-column" data-status="inprogress">
+                    <div class="column-header">
+                        <div class="column-header-title">
+                            <span class="column-dot dot-progress"></span>
+                            <h3>In Progress</h3>
+                        </div>
+                        <span class="column-count-badge" id="count-inprogress">0</span>
+                    </div>
+                    <div class="column-card-list" id="list-inprogress">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Column 3: Under Review -->
+                <div class="kanban-column" data-status="review">
+                    <div class="column-header">
+                        <div class="column-header-title">
+                            <span class="column-dot dot-review"></span>
+                            <h3>Under Review</h3>
+                        </div>
+                        <span class="column-count-badge" id="count-review">0</span>
+                    </div>
+                    <div class="column-card-list" id="list-review">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Column 4: Completed -->
+                <div class="kanban-column" data-status="completed">
+                    <div class="column-header">
+                        <div class="column-header-title">
+                            <span class="column-dot dot-complete"></span>
+                            <h3>Completed</h3>
+                        </div>
+                        <span class="column-count-badge" id="count-completed">0</span>
+                    </div>
+                    <div class="column-card-list" id="list-completed">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        
+        <!-- Mobile Sidebar Overlay Backdrop -->
+        <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop"></div>
+
+    </div>
+
+    <!-- ==========================================
+         DIALOG MODALS
+         ========================================== -->
+         
+    <!-- Modal 1: Create Project -->
+    <div class="modal-overlay" id="projectModalOverlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-headline font-outfit">Create New Project</h3>
+                <button class="modal-close-icon" id="closeProjectModalBtn">&times;</button>
+            </div>
+            <form id="projectForm" class="modal-form">
+                <div class="form-group">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <input type="text" id="projectName" required placeholder="e.g. Mobile App Dev" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="projectCategory" class="form-label">Category</label>
+                    <select id="projectCategory" class="form-input">
+                        <option value="Software Development">Software Development</option>
+                        <option value="Design Operations">Design Operations</option>
+                        <option value="Marketing Campaign">Marketing Campaign</option>
+                        <option value="Personal Taskboard">Personal Taskboard</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="projectDesc" class="form-label">Short Description</label>
+                    <textarea id="projectDesc" required rows="2" placeholder="Brief outline of project scope..." class="form-textarea"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelProjectBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Board</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 2: Add / Edit Task -->
+    <div class="modal-overlay" id="taskModalOverlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-headline font-outfit" id="taskModalTitle">Add New Task</h3>
+                <button class="modal-close-icon" id="closeTaskModalBtn">&times;</button>
+            </div>
+            <form id="taskForm" class="modal-form">
+                <!-- Keep track if we are editing -->
+                <input type="hidden" id="editTaskId" value="">
+                
+                <div class="form-group">
+                    <label for="taskTitle" class="form-label">Task Title</label>
+                    <input type="text" id="taskTitle" required placeholder="Describe task..." class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="taskDesc" class="form-label">Task Description</label>
+                    <textarea id="taskDesc" required rows="3" placeholder="Context details, acceptance criteria..." class="form-textarea"></textarea>
+                </div>
+                
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="taskPriority" class="form-label">Priority</label>
+                        <select id="taskPriority" class="form-input">
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDeadline" class="form-label">Deadline</label>
+                        <input type="date" id="taskDeadline" required class="form-input">
+                    </div>
+                </div>
+                
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="taskAssignee" class="form-label">Assignee</label>
+                        <input type="text" id="taskAssignee" required placeholder="Name or email..." class="form-input">
+                    </div>
+                    <div class="form-group" id="editStatusGroup" style="display: none;">
+                        <label for="taskStatus" class="form-label">Status Column</label>
+                        <select id="taskStatus" class="form-input">
+                            <option value="todo">To Do</option>
+                            <option value="inprogress">In Progress</option>
+                            <option value="review">Under Review</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelTaskBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitTaskBtn">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script Routing Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
