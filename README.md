@@ -16,3 +16,16 @@ To launch any task locally:
    python -m http.server 8000
    ```
 3. Open `http://localhost:8000` in your web browser.
+
+# CodSoft Internship Tasks
+
+## Live Projects
+
+### Task 1 – Personal Portfolio
+🔗 https://codsoft-tasks-umber.vercel.app/
+
+### Task 2 – Online Quiz Maker
+🔗 https://codsoft-tasks-rlbz-bur1zjz6n.vercel.app/
+
+### Task 3 – BoardSync Kanban Board
+🔗 https://codsoft-tasks-ri9f.vercel.app/
